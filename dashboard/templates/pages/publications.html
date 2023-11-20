@@ -1,0 +1,92 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Publications</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard:index' %}"><i
+                                    class="bx bx-home-alt"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Publications</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!--end breadcrumb-->
+        <h6 class="mb-0 text-uppercase">Publications Information</h6>
+        <hr />
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Authors</th>
+                                <th>Cites By</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if publications %}
+                            {% for publication in publications %}
+                            <tr>
+                                <td>
+                                    <a target="_blank" href="{% if publication.link %} {{publication.link}} {% else %} https://scholar.google.com/  {% endif %}">{{publication.title}}</a>
+                                </td>
+                                <td>{{publication.authors}}</td>
+                                <td>{{publication.citations}}</td>
+                                <td>{{publication.year}}</td>
+                                <td>{{publication.journal}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="5">No Publications Found</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Title</th>
+                                <th>Authors</th>
+                                <th>Cites By</th>
+                                <th>Year</th>
+                                <th>Journal</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block custom_scripts %}
+<script>
+
+    $(document).ready(function () {
+        $('#example').DataTable()
+    });
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        var table = $('#example2').DataTable({
+            lengthChange: false,
+            buttons: ['copy', 'excel', 'pdf', 'print']
+        });
+
+        table.buttons().container()
+            .appendTo('#example2_wrapper .col-md-6:eq(0)');
+    });
+</script>
+{% endblock custom_scripts %}

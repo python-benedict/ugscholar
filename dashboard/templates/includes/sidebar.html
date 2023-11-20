@@ -1,0 +1,75 @@
+{% load static %}
+<div class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="{% static 'dashboard/assets/images/logo.png' %}" style="height: 40px; width:auto;" class="logo-icon" alt="logo icon">
+        </div>
+        <div>
+            <h4 class="logo-text">IntelliSphere</h4>
+        </div>
+        <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
+        </div>
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+        <li>
+            <a href="{% url 'dashboard:index' %}">
+                <div class="parent-icon"><i class='bx bx-home'></i>
+                </div>
+                <div class="menu-title">Dashboard</div>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:authors' %}">
+                <div class="parent-icon"><i class='bx bx-group'></i>
+                </div>
+                <div class="menu-title">Authors</div>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:publications' %}">
+                <div class="parent-icon"><i class='bx bx-book-content'></i>
+                </div>
+                <div class="menu-title">Publications</div>
+            </a>
+        </li>
+        <li class="menu-label">Break Down</li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-time'></i>
+                </div>
+                <div class="menu-title">Break Down</div>
+            </a>
+            <ul>
+                <li> <a href="{% url 'dashboard:colleges' %}"><i class='bx bx-radio-circle'></i>Colleges</a>
+                </li>
+                <li> <a href="{% url 'dashboard:faculties' %}"><i class='bx bx-radio-circle'></i>Institutes & Centers</a>
+                </li>
+                <li> <a href="{% url 'dashboard:departments' %}"><i class='bx bx-radio-circle'></i>Departments</a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- conditional rendering - only for administrators-->
+        {% if request.user.is_superuser or request.user.is_staff %}
+        <li class="menu-label">Accounts</li>
+        <li>
+            <a href="{% url 'dashboard:administrators' %}">
+                <div class="parent-icon"><i class="bx bx-user"></i>
+                </div>
+                <div class="menu-title">Administrators</div>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:logs' %}">
+                <div class="parent-icon"><i class="bx bx-edit"></i>
+                </div>
+                <div class="menu-title">Logs</div>
+            </a>
+        </li>
+        {% endif %}
+
+
+    </ul>
+    <!--end navigation-->
+</div>

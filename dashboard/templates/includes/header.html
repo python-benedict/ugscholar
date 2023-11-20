@@ -1,0 +1,172 @@
+{% load static %}
+<header>
+    <div class="topbar d-flex align-items-center">
+        <nav class="navbar navbar-expand gap-3">
+            <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
+            </div>
+            <div class="search-bar flex-grow-1">
+                <div class="position-relative search-bar-box">
+                    <input type="text" class="form-control search-control" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+                    <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
+                </div>
+            </div>
+            <div class="top-menu ms-auto">
+                <ul class="navbar-nav align-items-center gap-1">
+                    <li class="nav-item mobile-search-icon d-flex d-lg-none" data-bs-toggle="modal" data-bs-target="#SearchModal">
+                        <a class="nav-link" href="avascript:;"><i class='bx bx-search'></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown dropdown-app">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown" href="javascript:;"><i class='bx bx-grid-alt'></i></a>
+                        <div class="dropdown-menu dropdown-menu-end p-0">
+                            <div class="app-container p-2 my-2">
+                                <div class="row gx-0 gy-2 row-cols-3 justify-content-center p-2">
+                                    <div class="col">
+                                        <a href="https://scholar.google.com/" target="_blank">
+                                            <div class="app-box text-center">
+                                                <div class="app-icon">
+                                                    <img src="{% static 'dashboard/assets/images/app/google-scholar.png' %}" width="30" alt="">
+                                                </div>
+                                                <div class="app-name">
+                                                    <p class="mb-0 mt-1">Google Scholar</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="https://www.scopus.com/" target="_blank">
+                                            <div class="app-box text-center">
+                                                <div class="app-icon">
+                                                    <img src="{% static 'dashboard/assets/images/app/scopus.jpeg' %}" width="30" alt="">
+                                                </div>
+                                                <div class="app-name">
+                                                    <p class="mb-0 mt-1">Scopus</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="https://www.webofscience.com/wos/woscc/basic-search" target="_blank">
+                                            <div class="app-box text-center">
+                                                <div class="app-icon">
+                                                    <img src="{% static 'dashboard/assets/images/app/web-of-science.jpeg' %}" width="30" alt="">
+                                                </div>
+                                                <div class="app-name">
+                                                    <p class="mb-0 mt-1">Web of Science</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="https://www.linkedin.com/" target="_blank">
+                                            <div class="app-box text-center">
+                                                <div class="app-icon">
+                                                    <img src="{% static 'dashboard/assets/images/app/linkedin.png' %}" width="30" alt="">
+                                                </div>
+                                                <div class="app-name">
+                                                    <p class="mb-0 mt-1">linkedin</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!--end row-->
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown dropdown-large">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown"><span class="alert-count">0</span>
+                            <i class='bx bx-bell'></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a href="javascript:;">
+                                <div class="msg-header">
+                                    <p class="msg-header-title">Notifications</p>
+                                    <p class="msg-header-badge">0 New</p>
+                                </div>
+                            </a>
+                            <div class="header-notifications-list">
+                                <!-- put notifications here later -->
+                            </div>
+                            <a href="javascript:;">
+                                <div class="text-center msg-footer">
+                                    <button class="btn btn-light w-100">View All Notifications</button>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+
+            <div class="user-box dropdown px-3">
+                <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    
+                    {% if request.user.is_authenticated and request.user.is_superuser or request.user.is_staff %}
+                    <img src="{% if request.user.profile_picture %} {{request.user.profile_picture.url}} {% else %} {% static 'dashboard/assets/images/app/google-scholar.png' %} {% endif %}" class="user-img" alt="user avatar">
+                    {% else %}
+                    <img src="{% static 'dashboard/assets/images/app/google-scholar.png' %}" class="user-img" alt="user profile">
+                    {% endif %}
+                    
+                    <!-- Do conditional rendering here - only admins -->
+                    {% if request.user.is_authenticated and request.user.is_superuser or request.user.is_staff %}
+                    <div class="user-info">
+                        <p class="user-name mb-0">{{ request.user.fullname }}</p>
+                        {% if request.user.is_superuser %}
+                        <p class="designation mb-0">Superuser</p>
+                        {% elif request.user.is_staff %}
+                        <p class="designation mb-0">Staff</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </a>
+                <!-- Do conditional rendering here - only admins -->
+                <ul class="dropdown-menu dropdown-menu-end">
+                    {% if request.user.is_authenticated and request.user.is_superuser or request.user.is_staff %}
+                    <li><a class="dropdown-item d-flex align-items-center" href="{% url 'dashboard:profile' %}"><i class="bx bx-user fs-5"></i><span>Profile</span></a></li>
+                    {% endif %}
+                    {% if request.user.is_authenticated and request.user.is_superuser or request.user.is_staff %}
+                    <li><a class="dropdown-item d-flex align-items-center" href="{% url 'accounts:logout' %}"><i class="bx bx-log-out-circle"></i><span>Logout</span></a></li>
+                    {% else %}
+                    <button type="button" class="btn btn-light" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    {% endif %}
+                </ul>
+            </div>
+            
+
+        </nav>
+    </div>
+</header>
+
+<!-- Login form modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'accounts:login' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" placeholder="eg. princek@gmail.com" class="form-control">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Enter password" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Login As Staff</button>
+                  </div>
+            </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
